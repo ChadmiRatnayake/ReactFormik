@@ -1,38 +1,48 @@
 import React from 'react'
 import {useFormik} from 'formik'
+import * as Yup from 'yup'
 
-function YouTubeForm() {
+const initialValues = {
+  name: '',
+  email: '',
+  channel: ''
+}
 
-  const initialValues = {
-    name: '',
-    email: '',
-    channel: ''
-  }
+const onSubmit = values => {
+  console.log('Form data', values)
+}
 
-  const onSubmit = values => {
-    console.log('Form data', values)
-  }
+// const validate = values => {
+//   let errors = {}
+//     if(!values.name){
+//       errors.name = 'Required'
+//     }
+//     if(!values.email){
+//       errors.email = 'Required'
+//     }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+//       errors.email = 'Invalid email format'
+//     }
+//     if(!values.channel){
+//       errors.channel = 'Required'
+//     }
+//   return errors
+// }
 
-  const validate = values => {
-    let errors = {}
-      if(!values.name){
-        errors.name = 'Required'
-      }
-      if(!values.email){
-        errors.email = 'Required'
-      }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
-        errors.email = 'Invalid email format'
-      }
-      if(!values.channel){
-        errors.channel = 'Required'
-      }
-    return errors
-  }
+const validationSchema = Yup.object({
+  name: Yup.string().required('Required!'),
+  email: Yup.string()
+    .matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', 'Invalid email format')
+    .required('Required'),
+  channel: Yup.string().required('Required')
+})
+
+function YouTubeForm() {  
 
   const formik =  useFormik({
     initialValues,
     onSubmit,
-    validate 
+    //validate 
+    validationSchema
   })
 
   console.log('Form values', formik.values)
