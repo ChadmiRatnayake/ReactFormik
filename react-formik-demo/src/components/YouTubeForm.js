@@ -9,10 +9,13 @@ const initialValues = {
   channel: '',
   comments: '',
   address: '',
+  // group together some data
   social: {
     facebook: '',
     twitter: ''
-  }
+  },
+  // when dealing with a list of values
+  phoneNumbers: ['', '']
 }
 
 const onSubmit = values => {
@@ -108,6 +111,16 @@ function YouTubeForm() {
             <div className='form-control'>
               <label htmlFor='twitter'>Twitter profile</label>
               <Field type='text' id='twitter' name='social.twitter'/>
+            </div>
+
+            <div className='form-control'>
+              <label htmlFor='primaryPh'>Primary phone number</label>
+              <Field type='text' id='primaryPh' name='phoneNumbers[0]' />
+            </div>
+
+            <div>
+              <label htmlFor='secondaryPh'>Secondary phone number</label>
+              <Field type='text' id='secondaryPh' name='phoneNumbers[1]'/>
             </div>
 
             <button type='submit'>Submit</button>
