@@ -1,5 +1,5 @@
 import React from 'react'
-import {Formik, Form, Field, ErrorMessage} from 'formik'
+import {Formik, Form, Field, ErrorMessage, FieldArray} from 'formik'
 import * as Yup from 'yup'
 import TextError from './TextError'
 
@@ -15,7 +15,9 @@ const initialValues = {
     twitter: ''
   },
   // when dealing with a list of values
-  phoneNumbers: ['', '']
+  phoneNumbers: ['', ''],
+  // dynamic form control
+  phNumbers: ['']
 }
 
 const onSubmit = values => {
@@ -121,6 +123,36 @@ function YouTubeForm() {
             <div>
               <label htmlFor='secondaryPh'>Secondary phone number</label>
               <Field type='text' id='secondaryPh' name='phoneNumbers[1]'/>
+            </div>
+
+            {/*Dynamic form control (if the user wish to add mutiple numbers, allow him to add*/}
+            <div className='form-control'>
+              <label>List of phone numbers</label>
+              <FieldArray name='phNumbers'>
+                {
+                  (fieldArrayProps) => {
+                    console.log('field array props', fieldArrayProps)
+                    // extract following properties
+                    const {push, remove, form} = fieldArrayProps
+                    const {values} = form
+                    const {phNumbers} = values
+                    return <div>
+                      {
+                        phNumbers.map((phNumbers, index) => (
+                          <div key={index}>
+                            <Field name={`phNumbers[${index}]`}/>
+                            {
+                              index > 0 && 
+                              <button type='button' onClick={() => remove(index)}>-</button>
+                            }
+                            <button type='button' onClick={() => push('')}>+</button>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  }
+                }
+              </FieldArray>
             </div>
 
             <button type='submit'>Submit</button>
