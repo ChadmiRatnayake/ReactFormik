@@ -1,5 +1,5 @@
 import React from 'react'
-import {Formik, Form, Field, ErrorMessage, FieldArray} from 'formik'
+import {Formik, Form, Field, ErrorMessage, FieldArray, FastField} from 'formik'
 import * as Yup from 'yup'
 import TextError from './TextError'
 
@@ -89,9 +89,13 @@ function YouTubeForm() {
 
             <div className='form-control'>
               <label htmlFor='address'>Address</label>
-              <Field name='address'>
+              {/* If a field component is independent from all other fields then we can use FastField.
+              FastField prevents rerendering the fields even when another field is changed. 
+              (Field component rerenders the components at each time a field is changed) */}
+              <FastField name='address'>
                 {
                   (props) => {
+                    console.log('Field render')
                     const {field, form, meta} = props
                     console.log('Render props',props)
                     return (
@@ -102,7 +106,7 @@ function YouTubeForm() {
                     )
                   }
                 }
-              </Field>
+              </FastField>
             </div>
 
             <div className='form-control'>
@@ -131,7 +135,7 @@ function YouTubeForm() {
               <FieldArray name='phNumbers'>
                 {
                   (fieldArrayProps) => {
-                    console.log('field array props', fieldArrayProps)
+                    // console.log('field array props', fieldArrayProps)
                     // extract following properties
                     const {push, remove, form} = fieldArrayProps
                     const {values} = form
