@@ -44,7 +44,11 @@ function YouTubeForm() {
     <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={onSubmit}>
+        onSubmit={onSubmit}
+        // formik runs validation onChange, onBlur of any field and onSubmit 
+        validateOnChange={false}
+        validateOnBlur={false}
+        >               
         <Form>
             <div className='form-control'>
               <label htmlFor='name'>Name</label>
@@ -140,6 +144,8 @@ function YouTubeForm() {
                     const {push, remove, form} = fieldArrayProps
                     const {values} = form
                     const {phNumbers} = values
+                    // formik runs validation onChange, onBlur of any field and onSubmit 
+                    console.log('form errors', form.errors)
                     return <div>
                       {
                         phNumbers.map((phNumbers, index) => (
