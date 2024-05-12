@@ -33,6 +33,15 @@ const validationSchema = Yup.object({
   channel: Yup.string().required('Required')
 })
 
+//custom validation
+const validateComments = value => {
+  let error
+  if(!value){
+    error = 'Required'
+  }
+  return error
+}
+
 function YouTubeForm() {  
 
   // console.log('Form values', formik.values)
@@ -47,7 +56,7 @@ function YouTubeForm() {
         onSubmit={onSubmit}
         // formik runs validation onChange, onBlur of any field and onSubmit 
         validateOnChange={false}
-        validateOnBlur={false}
+        //validateOnBlur={false}
         >               
         <Form>
             <div className='form-control'>
@@ -83,12 +92,18 @@ function YouTubeForm() {
                 id='channel' 
                 name='channel' 
               />
-              <ErrorMessage name='channel'/>
+              <ErrorMessage name='channel' component={TextError}/>
             </div>
 
             <div className='form-control'>
               <label htmlFor='comments'>Comments</label>
-              <Field as='textarea' id='comments' name='comments' />
+              <Field 
+                as='textarea' 
+                id='comments' 
+                name='comments' 
+                validate={validateComments}
+              />
+              <ErrorMessage name='comments' component={TextError}/>
             </div>
 
             <div className='form-control'>
